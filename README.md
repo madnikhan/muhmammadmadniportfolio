@@ -1,0 +1,64 @@
+# Muhammad Madni — Software Engineer Portfolio
+
+Personal portfolio and UK-style CV for **Muhammad Madni**, Full Stack Software Engineer (Merseyside, UK).
+
+Employment-focused positioning for RQF Level 6+ software roles — not a software-house or freelance brand.
+
+## Stack
+
+- Next.js 15 (App Router) + TypeScript + Tailwind CSS
+- Framer Motion (scroll / UI motion)
+- React Three Fiber + Drei (WebGL “systems constellation” hero)
+- Print-optimised A4 CV at `/cv`
+
+## Develop
+
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Build
+
+```bash
+npm run build
+npm start
+```
+
+## Deploy (Vercel)
+
+1. Push this repo to GitHub
+2. Import in [Vercel](https://vercel.com)
+3. Set optional env: `NEXT_PUBLIC_SITE_URL=https://your-domain.com`
+
+`vercel.json` is included for Next.js defaults.
+
+## Content
+
+Editable copy lives in `src/content/`:
+
+- `profile.ts` — name, contact, summary, domains
+- `projects.ts` — case studies
+- `experience.ts` / `cv.ts` — CV blocks
+
+Paste-ready LinkedIn and GitHub profile copy:
+
+- `content/linkedin.md`
+- `content/github-profile-readme.md`
+
+## Pages
+
+| Route | Purpose |
+|-------|---------|
+| `/` | WebGL hero + selected work |
+| `/projects` | Case study index |
+| `/projects/[slug]` | Case study detail |
+| `/about` | Career narrative |
+| `/cv` | 2-page UK CV (print to PDF) |
+| `/contact` | Email, phone, LinkedIn, GitHub |
+
+## Compliance note
+
+Site copy targets **employee** software roles. Avoid client solicitation, paid services, or business-ownership framing while Permission to Work restricts self-employment.
