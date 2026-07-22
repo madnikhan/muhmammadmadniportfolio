@@ -25,9 +25,7 @@ My edge is operational fluency: IT support and office systems for a production/p
 
 Selected work includes restaurant/food operations platforms, a multi-branch retail POS stack (Vendora), and commerce/logistics/admin systems. More: github.com/madnikhan
 
-Open to Full Stack Developer, Software Engineer, Web Application Developer, and related employee roles in the UK (RQF Level 6+). Based in Merseyside.
-
-I am seeking employment — not freelance, contractor, or self-employed consulting engagements.
+Open to Full Stack Developer, Software Engineer, and Web Application Developer roles in the UK. Based in Merseyside — remote and hybrid welcome.
 ```
 
 ## Featured project blurbs

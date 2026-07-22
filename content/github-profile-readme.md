@@ -24,4 +24,4 @@ I build modern web applications and business systems with **React**, **Next.js**
 - LinkedIn: [linkedin.com/in/madnikhan786](https://www.linkedin.com/in/madnikhan786/)
 - Email: madnikhan1@gmail.com
 
-Open to **employee** software engineering roles in the UK (RQF Level 6+). Not available for freelance or self-employed consulting under current Permission to Work conditions.
+Open to Full Stack and Software Engineer roles in the UK. Based in Merseyside — remote and hybrid welcome.

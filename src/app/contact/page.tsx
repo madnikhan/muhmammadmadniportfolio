@@ -16,9 +16,8 @@ export default function ContactPage() {
           Let&apos;s talk about software roles
         </h1>
         <p className="mt-4 text-sm text-term-dim sm:text-base">
-          Open to Full Stack, Software Engineer, and related employee positions in the UK. Not
-          available for freelance, contractor, or self-employed consulting under current
-          Permission to Work conditions.
+          Open to Full Stack, Software Engineer, and Web Application roles in the UK —
+          Merseyside-based, happy to discuss remote or hybrid.
         </p>
 
         <TerminalWindow path="~/contact.sh" className="mt-10">

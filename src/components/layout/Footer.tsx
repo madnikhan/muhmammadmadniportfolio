@@ -12,8 +12,8 @@ export function Footer() {
             {profile.role} · {profile.locationShort}
           </p>
           <p className="mt-4 max-w-lg text-xs text-term-dim/80">
-            Open to RQF Level 6+ software engineering roles as an employee. Not available for
-            freelance or self-employed consulting under current Permission to Work conditions.
+            Open to Full Stack and Software Engineer roles across the UK — Merseyside-based,
+            remote and hybrid friendly.
           </p>
         </div>
         <div className="flex flex-wrap gap-4 text-sm">

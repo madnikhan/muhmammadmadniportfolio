@@ -2,7 +2,7 @@
 
 Personal portfolio and UK-style CV for **Muhammad Madni**, Full Stack Software Engineer (Merseyside, UK).
 
-Employment-focused positioning for RQF Level 6+ software roles — not a software-house or freelance brand.
+Positioned for permanent software engineering roles — personal brand, not a software-house site.
 
 ## Stack
 
@@ -72,6 +72,6 @@ Paste-ready LinkedIn and GitHub profile copy:
 | `/cv` | 2-page UK CV (print to PDF) |
 | `/contact` | Email, phone, LinkedIn, GitHub |
 
-## Compliance note
+## Positioning
 
-Site copy targets **employee** software roles. Avoid client solicitation, paid services, or business-ownership framing while Permission to Work restricts self-employment.
+Keep copy focused on software engineering employment. Prefer personal engineer framing over agency ownership or client-sales CTAs.
