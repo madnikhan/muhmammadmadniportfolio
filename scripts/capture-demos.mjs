@@ -2,7 +2,7 @@
 /**
  * Capture hero screenshots + short motion demos for live project sites.
  * Usage:
- *   FUMARI_USER=admin FUMARI_PASS=... npm run capture:demos
+ *   FUMARI_USER=... FUMARI_PASS=... CAPTURE_ONLY=fumari-rms npm run capture:demos
  *   SHOWROOM_EMAIL=... SHOWROOM_PASS=... CAPTURE_ONLY=motor-gurus npm run capture:demos
  */
 import { chromium } from "playwright";
@@ -14,6 +14,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 const OUT = path.join(ROOT, "public", "projects");
 const BASE_SHOWROOM = "https://showroom-tawny.vercel.app";
+const BASE_FUMARI = "https://www.fumarisystem.com";
 
 const SITES = [
   {
@@ -38,9 +39,26 @@ const SITES = [
   },
   {
     slug: "fumari-rms",
-    url: "https://fumari.vercel.app/login",
-    scroll: false,
+    url: `${BASE_FUMARI}/login`,
     fumari: true,
+    sections: [
+      { path: "/dashboard/tables-system", file: "hero.png" },
+      { path: "/dashboard/tables-system", file: "screen-2.png", scroll: true },
+      { path: "/dashboard/orders", file: "orders.png" },
+      { path: "/dashboard/kitchen", file: "kitchen.png" },
+      { path: "/dashboard/kitchen/cocktail", file: "kitchen-cocktail.png" },
+      { path: "/dashboard/kitchen/main", file: "kitchen-main.png" },
+      { path: "/dashboard/kitchen/shisha", file: "kitchen-shisha.png" },
+      { path: "/dashboard/staff", file: "staff.png" },
+      { path: "/dashboard/hr", file: "hr.png" },
+      { path: "/dashboard/hr/schedule", file: "hr-schedule.png" },
+      { path: "/dashboard/accounting", file: "accounting.png", accounting: true },
+      {
+        path: "/dashboard/accounting/reports",
+        file: "accounting-reports.png",
+        accounting: true,
+      },
+    ],
   },
   {
     slug: "sparex-parts",
@@ -82,7 +100,7 @@ async function fillLogin(page, user, pass) {
   let filled = false;
   for (const u of userSel) {
     const el = page.locator(u).first();
-    if ((await el.count()) > 0) {
+    if ((await el.count()) > 0 && (await el.isVisible().catch(() => false))) {
       await el.fill(user);
       filled = true;
       break;
@@ -90,7 +108,7 @@ async function fillLogin(page, user, pass) {
   }
   for (const p of passSel) {
     const el = page.locator(p).first();
-    if ((await el.count()) > 0) {
+    if ((await el.count()) > 0 && (await el.isVisible().catch(() => false))) {
       await el.fill(pass);
       break;
     }
@@ -132,6 +150,87 @@ async function fillShowroomLogin(page, email, pass) {
   await page.waitForTimeout(2000);
 }
 
+/**
+ * Session-only DOM blur: brand "Fumari", logos, emails, phones, person-name-ish text.
+ */
+async function applyPrivacyBlur(page) {
+  await page.addStyleTag({
+    content: `
+      [data-privacy-blur="1"] {
+        filter: blur(7px) !important;
+        user-select: none !important;
+      }
+    `,
+  });
+
+  await page.evaluate(() => {
+    const EMAIL_RE = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i;
+    const PHONE_RE =
+      /(?:\+?\d{1,3}[\s.-]?)?(?:\(?\d{2,5}\)?[\s.-]?)?\d{3,4}[\s.-]?\d{3,4}(?:[\s.-]?\d{1,4})?/;
+    const FUMARI_RE = /fumari/i;
+    // First+Last or Title Case names (conservative; skips short words)
+    const NAME_RE = /\b([A-Z][a-z]{1,20})\s+([A-Z][a-z]{1,20})\b/;
+
+    const mark = (el) => {
+      if (!el || el.nodeType !== 1) return;
+      el.setAttribute("data-privacy-blur", "1");
+    };
+
+    // Brand logos / header imagery
+    document
+      .querySelectorAll(
+        'img[alt*="Fumari" i], img[src*="logo" i], img[src*="fumari" i], header img, nav img, aside img, [class*="logo" i] img, [class*="Logo"] img, svg[aria-label*="Fumari" i]',
+      )
+      .forEach(mark);
+
+    document.querySelectorAll('a[href^="mailto:"], a[href^="tel:"]').forEach(mark);
+
+    const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    while (walk.nextNode()) textNodes.push(walk.currentNode);
+
+    for (const node of textNodes) {
+      const text = (node.nodeValue || "").trim();
+      if (!text || text.length < 2) continue;
+      const parent = node.parentElement;
+      if (!parent) continue;
+      if (["SCRIPT", "STYLE", "NOSCRIPT"].includes(parent.tagName)) continue;
+
+      const looksSensitive =
+        FUMARI_RE.test(text) ||
+        EMAIL_RE.test(text) ||
+        (PHONE_RE.test(text) && /\d{5,}/.test(text.replace(/\D/g, ""))) ||
+        (NAME_RE.test(text) &&
+          text.split(/\s+/).length <= 4 &&
+          !/^(Today|Tomorrow|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|January|February|March|April|May|June|July|August|September|October|November|December|Dashboard|Kitchen|Orders|Staff|Schedule|Accounting|Reports|Tables|Mocktail|Main|Shisha|View|Orders|Back|Login|Password|Email|Username)/i.test(
+            text,
+          ));
+
+      if (looksSensitive) mark(parent);
+    }
+
+    // Common staff / profile chrome
+    document
+      .querySelectorAll(
+        '[class*="avatar" i], [class*="profile" i], [data-testid*="user" i], [class*="user-name" i], [class*="staff-name" i]',
+      )
+      .forEach(mark);
+  });
+
+  await page.waitForTimeout(200);
+}
+
+async function tryAccountingLogin(page, user, pass) {
+  const passVisible = await page
+    .locator('input[type="password"]')
+    .first()
+    .isVisible()
+    .catch(() => false);
+  if (!passVisible) return;
+  await fillLogin(page, user, pass);
+  await page.waitForTimeout(2500);
+}
+
 async function finishVideo(videoDir, dir, slug) {
   try {
     const files = await fs.readdir(videoDir);
@@ -142,6 +241,37 @@ async function finishVideo(videoDir, dir, slug) {
     await fs.rm(videoDir, { recursive: true, force: true });
   } catch (err) {
     console.warn(`  ! video move ${slug}:`, err.message);
+  }
+}
+
+async function captureSectionTour(page, dir, sections, baseUrl, options = {}) {
+  const { user, pass } = options;
+  for (const section of sections) {
+    const url = `${baseUrl}${section.path}`;
+    await page.goto(url, { waitUntil: "domcontentloaded", timeout: 90000 });
+    await page.waitForTimeout(2500);
+
+    if (section.accounting && user && pass) {
+      await tryAccountingLogin(page, user, pass);
+    }
+
+    await applyPrivacyBlur(page);
+
+    if (section.scroll) {
+      await page.evaluate(() =>
+        window.scrollBy(0, Math.min(500, document.body.scrollHeight * 0.25)),
+      );
+      await page.waitForTimeout(800);
+      await applyPrivacyBlur(page);
+    }
+
+    await page.screenshot({ path: path.join(dir, section.file), type: "png" });
+    console.log(`    · ${section.file}`);
+
+    await page.evaluate(() => window.scrollBy(0, 160));
+    await page.waitForTimeout(600);
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+    await page.waitForTimeout(500);
   }
 }
 
@@ -171,25 +301,7 @@ async function captureShowroom(browser, site) {
     await page.goto(site.url, { waitUntil: "domcontentloaded", timeout: 90000 });
     await page.waitForTimeout(2000);
     await fillShowroomLogin(page, email, pass);
-
-    for (const section of site.sections) {
-      const url = `${BASE_SHOWROOM}${section.path}`;
-      await page.goto(url, { waitUntil: "domcontentloaded", timeout: 90000 });
-      await page.waitForTimeout(2500);
-      if (section.scroll) {
-        await page.evaluate(() =>
-          window.scrollBy(0, Math.min(500, document.body.scrollHeight * 0.25)),
-        );
-        await page.waitForTimeout(800);
-      }
-      await page.screenshot({ path: path.join(dir, section.file), type: "png" });
-      console.log(`    · ${section.file}`);
-      // brief motion for tour video
-      await page.evaluate(() => window.scrollBy(0, 160));
-      await page.waitForTimeout(600);
-      await page.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" }));
-      await page.waitForTimeout(500);
-    }
+    await captureSectionTour(page, dir, site.sections, BASE_SHOWROOM);
   } catch (err) {
     console.error(`  ! failed ${site.slug}:`, err.message);
     try {
@@ -204,14 +316,11 @@ async function captureShowroom(browser, site) {
   console.log(`  ✓ ${site.slug}`);
 }
 
-async function captureSite(browser, site) {
-  if (site.showroom) {
-    await captureShowroom(browser, site);
-    return;
-  }
-
-  if (site.fumari && !process.env.FUMARI_PASS) {
-    console.warn(`  ⚠ skip ${site.slug}: set FUMARI_PASS (see .env.example)`);
+async function captureFumari(browser, site) {
+  const user = process.env.FUMARI_USER;
+  const pass = process.env.FUMARI_PASS;
+  if (!user || !pass) {
+    console.warn(`  ⚠ skip ${site.slug}: set FUMARI_USER and FUMARI_PASS (see .env.example)`);
     return;
   }
 
@@ -230,22 +339,60 @@ async function captureSite(browser, site) {
   console.log(`→ ${site.slug}: ${site.url}`);
 
   try {
-    if (site.fumari) {
-      const user = process.env.FUMARI_USER || "admin";
-      const pass = process.env.FUMARI_PASS;
-      await page.goto(site.url, { waitUntil: "domcontentloaded", timeout: 90000 });
-      await page.waitForTimeout(1500);
-      await fillLogin(page, user, pass);
-      await page.waitForTimeout(2500);
-      await page.goto("https://fumari.vercel.app/dashboard/tables", {
-        waitUntil: "domcontentloaded",
-        timeout: 90000,
-      });
-      await page.waitForTimeout(3000);
-    } else {
-      await page.goto(site.url, { waitUntil: "domcontentloaded", timeout: 90000 });
-      await page.waitForTimeout(2500);
+    await page.goto(site.url, { waitUntil: "domcontentloaded", timeout: 90000 });
+    await page.waitForTimeout(2000);
+    await fillLogin(page, user, pass);
+    await page.waitForTimeout(3500);
+    // Prefer leaving /login; continue anyway if already on dashboard
+    try {
+      await page.waitForURL((url) => !url.pathname.includes("/login"), { timeout: 20000 });
+    } catch {
+      /* may already be authenticated or redirect differs */
     }
+    await page.waitForTimeout(1500);
+    await captureSectionTour(page, dir, site.sections, BASE_FUMARI, { user, pass });
+  } catch (err) {
+    console.error(`  ! failed ${site.slug}:`, err.message);
+    try {
+      await applyPrivacyBlur(page);
+      await page.screenshot({ path: path.join(dir, "hero.png"), type: "png" });
+    } catch {
+      /* ignore */
+    }
+  }
+
+  await context.close();
+  await finishVideo(videoDir, dir, site.slug);
+  console.log(`  ✓ ${site.slug}`);
+}
+
+async function captureSite(browser, site) {
+  if (site.showroom) {
+    await captureShowroom(browser, site);
+    return;
+  }
+  if (site.fumari) {
+    await captureFumari(browser, site);
+    return;
+  }
+
+  const dir = path.join(OUT, site.slug);
+  await ensureDir(dir);
+  const videoDir = path.join(dir, "_video-tmp");
+  await ensureDir(videoDir);
+
+  const context = await browser.newContext({
+    viewport: { width: 1280, height: 720 },
+    deviceScaleFactor: 1,
+    recordVideo: { dir: videoDir, size: { width: 1280, height: 720 } },
+  });
+  const page = await context.newPage();
+
+  console.log(`→ ${site.slug}: ${site.url}`);
+
+  try {
+    await page.goto(site.url, { waitUntil: "domcontentloaded", timeout: 90000 });
+    await page.waitForTimeout(2500);
 
     await page.screenshot({ path: path.join(dir, "hero.png"), type: "png" });
 
