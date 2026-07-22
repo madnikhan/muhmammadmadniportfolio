@@ -38,7 +38,7 @@ export function CvDocument() {
             Core skills
           </h2>
           <div className="mt-1 h-px bg-black/10" />
-          <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2 text-[9pt] sm:grid-cols-4">
+          <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2 text-[9pt] sm:grid-cols-3 lg:grid-cols-5 print:grid-cols-5">
             <div>
               <p className="font-semibold">Frontend</p>
               <p className="mt-0.5 leading-snug text-black/80">{skills.frontend.join(", ")}</p>
@@ -54,6 +54,10 @@ export function CvDocument() {
             <div>
               <p className="font-semibold">Tools</p>
               <p className="mt-0.5 leading-snug text-black/80">{skills.tools.join(", ")}</p>
+            </div>
+            <div>
+              <p className="font-semibold">Infra</p>
+              <p className="mt-0.5 leading-snug text-black/80">{skills.infra.join(", ")}</p>
             </div>
           </div>
         </section>

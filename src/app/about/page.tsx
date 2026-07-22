@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { TerminalWindow } from "@/components/ui/TerminalWindow";
 import { profile } from "@/content/profile";
-import { additionalExperience } from "@/content/experience";
+import { additionalExperience, skills } from "@/content/experience";
 
 export const metadata: Metadata = {
   title: "About",
@@ -38,6 +38,33 @@ export default function AboutPage() {
                   [{t}]
                 </li>
               ))}
+            </ul>
+          </TerminalWindow>
+        </Reveal>
+
+        <Reveal>
+          <TerminalWindow path="~/stack/infra">
+            <p className="text-xs text-term-dim">
+              <span className="text-term-green">$</span> cat infra.md
+            </p>
+            <p className="mt-3 text-sm text-foreground/90">
+              Field and infrastructure capabilities — local servers, business hardware
+              installation, networking, payment terminals, and surveillance AI systems — alongside
+              Python, MongoDB, Neon, Railway, and Blob storage.
+            </p>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {skills.infra.map((t) => (
+                <li key={t} className="tag-code">
+                  [{t}]
+                </li>
+              ))}
+              {["Python", "MongoDB", "Neon", "Railway", "Blob storage", "Payment terminals"].map(
+                (t) => (
+                  <li key={t} className="tag-code">
+                    [{t}]
+                  </li>
+                ),
+              )}
             </ul>
           </TerminalWindow>
         </Reveal>

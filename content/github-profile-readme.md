@@ -2,7 +2,7 @@
 
 **Full Stack Software Engineer** based in Merseyside, UK · 20+ years in IT · 250+ delivered projects
 
-I build modern web applications and business systems with **React**, **Next.js**, **TypeScript**, and **Node.js** — from POS and multi-branch retail to e-commerce, admin dashboards, immigration-style workflows, solicitor office tooling, government-office automation, and AI traffic monitoring systems.
+I build modern web applications and business systems with **React**, **Next.js**, **TypeScript**, **Node.js**, and **Python** — from POS and multi-branch retail to e-commerce, payment terminals, local servers, networking, hardware installs, and surveillance AI systems.
 
 **AI-augmented workspace:** ChatGPT · Anthropic Claude · Cursor AI · locally built AI systems — for efficient, state-of-the-art delivery.
 
@@ -16,7 +16,7 @@ I build modern web applications and business systems with **React**, **Next.js**
 
 ### Stack
 
-`React` `Next.js` `TypeScript` `Node.js` `PostgreSQL` `Prisma` `Firebase` `Tailwind` `Docker` `Vercel` `Cursor AI` `Claude` `ChatGPT`
+`React` `Next.js` `TypeScript` `Python` `Node.js` `PostgreSQL` `MongoDB` `Neon` `Railway` `Blob` `Docker` `Vercel` `Payment terminals` `Networking` `Surveillance AI` `Cursor AI` `Claude` `ChatGPT`
 
 ### Links
 

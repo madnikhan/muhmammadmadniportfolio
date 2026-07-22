@@ -2,7 +2,7 @@ export const softwareExperience = {
   title: "Full Stack Software Engineer — Business Systems",
   period: "Ongoing · 20+ years in IT",
   intro:
-    "Designing and developing web applications, business management systems, and digital solutions across retail, hospitality, finance-adjacent tooling, and operational platforms.",
+    "Designing and developing web applications, business management systems, and digital solutions across retail, hospitality, finance-adjacent tooling, and operational platforms — including cloud and on-prem deployments.",
   blocks: [
     {
       heading: "Restaurant / food operations platforms",
@@ -21,11 +21,11 @@ export const softwareExperience = {
       ],
     },
     {
-      heading: "Commerce, logistics & admin systems",
+      heading: "Commerce, logistics, infra & surveillance systems",
       bullets: [
         "Delivered e-commerce, supplier portals, order tracking, invoicing, and logistics dashboards.",
-        "Built role-based admin panels, reporting, and workflow automation for SME operations.",
-        "Shipped systems spanning immigration-style application workflows, solicitor office management patterns, government-office automation, and AI camera traffic monitoring among 250+ career deliveries.",
+        "Integrated payment terminal hardware, local server builds, and business networking for on-site deployments.",
+        "Built and supported surveillance AI systems alongside immigration-style workflows, solicitor office patterns, and government-office automation among 250+ career deliveries.",
       ],
     },
   ],
@@ -50,17 +50,32 @@ export const additionalExperience = [
 
 export const skills = {
   frontend: ["React", "Next.js", "TypeScript", "JavaScript", "HTML5", "CSS3", "Tailwind CSS"],
-  backend: ["Node.js", "REST APIs", "Authentication", "Server-side development"],
-  database: ["PostgreSQL", "Firebase Firestore", "MySQL", "Prisma", "Drizzle"],
+  backend: [
+    "Node.js",
+    "Python",
+    "REST APIs",
+    "Authentication",
+    "Payment terminal integrations",
+    "Server-side development",
+  ],
+  database: ["PostgreSQL", "MongoDB", "Neon", "Firebase Firestore", "MySQL", "Prisma", "Drizzle"],
   tools: [
     "Git",
     "GitHub",
     "Vercel",
+    "Railway",
+    "Blob storage",
     "Docker",
     "Cursor AI",
     "ChatGPT",
     "Anthropic Claude",
     "Local AI systems",
+  ],
+  infra: [
+    "Local servers",
+    "Business hardware install",
+    "Networking",
+    "Surveillance AI",
   ],
 } as const;
 
@@ -70,4 +85,6 @@ export const technicalStrengths = [
   "End-to-end delivery of complex management systems",
   "Domain depth across retail, hospitality, legal ops, and automation",
   "AI-augmented workspace for efficient, modern delivery",
+  "On-prem servers, networking, and business hardware installation",
+  "Payment terminals and surveillance AI systems",
 ] as const;

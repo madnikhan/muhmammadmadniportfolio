@@ -14,6 +14,6 @@ export const cv = {
   additionalExperience,
   education: profile.education,
   domainsLine:
-    "E-commerce · Immigration casework · Solicitor ops · Gov office automation · AI traffic monitoring · Retail & POS · Hospitality systems",
+    "E-commerce · Immigration casework · Solicitor ops · Gov office automation · AI traffic monitoring · Surveillance AI · Payment terminals · Local servers · Networking · Hardware install · Retail & POS · Hospitality systems",
   technicalStrengths,
 } as const;
