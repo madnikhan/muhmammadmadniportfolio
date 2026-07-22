@@ -331,6 +331,76 @@ export const projects: Project[] = [
       poster: "/projects/sparex-parts/hero.png",
     },
   },
+  {
+    slug: "motor-gurus",
+    title: "Motor Gurus — Showroom & Dealership Platform",
+    shortTitle: "Motor Gurus Showroom",
+    role: "Full Stack Developer",
+    summary:
+      "End-to-end motor showroom and dealership platform covering vehicles, customers, orders, leads, reporting, and settings — with authenticated staff workflows.",
+    problem:
+      "Dealerships need a unified system for stock, customers, sales orders, lead intake, and operational reporting instead of fragmented spreadsheets and tools.",
+    outcome:
+      "Delivered a modern Next.js dealership app with tRPC APIs, Prisma/PostgreSQL on Supabase, NextAuth login, and operational modules for day-to-day showroom management.",
+    technologies: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "tRPC",
+      "Zod",
+      "Prisma",
+      "PostgreSQL",
+      "Supabase",
+      "NextAuth",
+      "Tailwind CSS",
+      "TanStack Query",
+      "Recharts",
+      "Vercel",
+    ],
+    features: [
+      "Staff authentication (credentials + JWT)",
+      "Vehicle stock management",
+      "Customers and orders",
+      "Leads pipeline",
+      "Reports and charts",
+      "Settings and admin configuration",
+    ],
+    images: [
+      {
+        src: "/projects/motor-gurus/hero.png",
+        alt: "Motor Gurus showroom dashboard",
+      },
+      {
+        src: "/projects/motor-gurus/orders.png",
+        alt: "Motor Gurus orders section",
+      },
+      {
+        src: "/projects/motor-gurus/customers.png",
+        alt: "Motor Gurus customers section",
+      },
+      {
+        src: "/projects/motor-gurus/vehicles.png",
+        alt: "Motor Gurus vehicles section",
+      },
+      {
+        src: "/projects/motor-gurus/leads.png",
+        alt: "Motor Gurus leads section",
+      },
+      {
+        src: "/projects/motor-gurus/reports.png",
+        alt: "Motor Gurus reports section",
+      },
+      {
+        src: "/projects/motor-gurus/settings.png",
+        alt: "Motor Gurus settings section",
+      },
+    ],
+    liveUrl: "https://showroom-tawny.vercel.app/",
+    video: {
+      src: "/projects/motor-gurus/demo.webm",
+      poster: "/projects/motor-gurus/hero.png",
+    },
+  },
 ];
 
 export function getProject(slug: string): Project | undefined {

@@ -74,7 +74,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           </Reveal>
         ) : null}
 
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {project.images.map((img) => (
             <div
               key={img.src}
@@ -85,9 +85,14 @@ export default async function ProjectDetailPage({ params }: Props) {
                 alt={img.alt}
                 fill
                 className="object-cover object-top"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 priority
               />
+              {img.alt ? (
+                <p className="absolute bottom-0 inset-x-0 bg-term-bg/80 px-2 py-1 text-[10px] text-term-dim">
+                  {img.alt.replace(/^Motor Gurus\s+/i, "")}
+                </p>
+              ) : null}
             </div>
           ))}
         </div>
