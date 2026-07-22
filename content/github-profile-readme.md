@@ -4,6 +4,8 @@
 
 I build modern web applications and business systems with **React**, **Next.js**, **TypeScript**, and **Node.js** — from POS and multi-branch retail to e-commerce, admin dashboards, immigration-style workflows, solicitor office tooling, government-office automation, and AI traffic monitoring systems.
 
+**AI-augmented workspace:** ChatGPT · Anthropic Claude · Cursor AI · locally built AI systems — for efficient, state-of-the-art delivery.
+
 > A software engineer who understands business problems, not just code.
 
 ### Highlighted work
@@ -14,7 +16,7 @@ I build modern web applications and business systems with **React**, **Next.js**
 
 ### Stack
 
-`React` `Next.js` `TypeScript` `Node.js` `PostgreSQL` `Prisma` `Firebase` `Tailwind` `Docker` `Vercel`
+`React` `Next.js` `TypeScript` `Node.js` `PostgreSQL` `Prisma` `Firebase` `Tailwind` `Docker` `Vercel` `Cursor AI` `Claude` `ChatGPT`
 
 ### Links
 

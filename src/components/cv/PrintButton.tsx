@@ -2,11 +2,7 @@
 
 export function PrintButton() {
   return (
-    <button
-      type="button"
-      onClick={() => window.print()}
-      className="no-print inline-flex items-center rounded-md bg-teal px-5 py-3 text-sm font-medium text-white transition hover:bg-teal-bright"
-    >
+    <button type="button" onClick={() => window.print()} className="btn-term-solid w-full sm:w-auto">
       Download / Print PDF
     </button>
   );

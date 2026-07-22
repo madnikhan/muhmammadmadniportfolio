@@ -6,15 +6,20 @@ export function Marquee() {
   const items = [...profile.marqueeItems, ...profile.marqueeItems];
 
   return (
-    <section className="overflow-hidden border-y border-ink/5 bg-paper-deep py-4" aria-hidden>
+    <section
+      className="overflow-hidden border-y border-[var(--term-border)] bg-term-panel py-3"
+      aria-hidden
+    >
+      <p className="sr-only">Technology and domain stream</p>
       <div className="animate-marquee flex w-max">
         {items.map((item, i) => (
           <span
             key={`${item}-${i}`}
-            className="mx-6 whitespace-nowrap text-sm font-medium tracking-wide text-ink/45"
+            className="mx-5 whitespace-nowrap font-mono text-xs tracking-wide text-term-dim sm:text-sm"
           >
+            <span className="text-term-green">stdout</span>
+            <span className="text-term-dim"> · </span>
             {item}
-            <span className="ml-6 text-teal/50">·</span>
           </span>
         ))}
       </div>

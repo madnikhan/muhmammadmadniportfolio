@@ -3,13 +3,13 @@
 ## Headline (primary)
 
 ```
-Full Stack Software Engineer | React | Next.js | TypeScript | Business Applications | 20+ Years IT Experience
+Full Stack Software Engineer | React | Next.js | TypeScript | AI-Augmented Workspace | 20+ Years IT
 ```
 
 ## Headline (alternative)
 
 ```
-Software Engineer | Web Applications | Business Systems | React • Next.js • TypeScript • Node.js
+Software Engineer | Web Applications | Business Systems | React • Next.js • TypeScript • Cursor AI
 ```
 
 ## About
@@ -19,9 +19,11 @@ Full Stack Software Engineer with over 20 years in IT and 250+ delivered project
 
 I specialise in React, Next.js, TypeScript, Node.js, and SQL databases, building practical software for retail, hospitality, finance-adjacent tooling, immigration-style application workflows, solicitor office operations, government-office automation, and AI camera traffic monitoring.
 
-My edge is operational fluency: I have worked in IT support and office systems for a production/print business, and spent years in hospitality and takeaway operations. That background shapes how I design POS, dashboards, and multi-role business applications — I understand the floor, not only the code.
+I build with current stacks and an AI-augmented workspace — ChatGPT, Anthropic Claude, Cursor AI, and locally built AI systems — to ship state-of-the-art software faster and with higher quality.
 
-Selected work includes restaurant/food operations platforms, a multi-branch retail POS stack (Vendora), and commerce/logistics/admin systems. More case studies and code: github.com/madnikhan
+My edge is operational fluency: IT support and office systems for a production/print business, plus years in hospitality and takeaway operations. That background shapes how I design POS, dashboards, and multi-role business applications.
+
+Selected work includes restaurant/food operations platforms, a multi-branch retail POS stack (Vendora), and commerce/logistics/admin systems. More: github.com/madnikhan
 
 Open to Full Stack Developer, Software Engineer, Web Application Developer, and related employee roles in the UK (RQF Level 6+). Based in Merseyside.
 

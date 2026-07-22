@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { profile } from "@/content/profile";
+import { TerminalWindow } from "@/components/ui/TerminalWindow";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -8,60 +9,68 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="bg-paper px-5 pb-24 pt-28 sm:px-8">
+    <div className="bg-term-bg px-4 pb-20 pt-24 sm:px-6 sm:pb-24 sm:pt-28">
       <div className="mx-auto max-w-3xl">
         <p className="section-label">Contact</p>
-        <h1 className="font-display mt-3 text-4xl tracking-tight text-ink sm:text-5xl">
+        <h1 className="font-display mt-3 text-3xl text-term-green sm:text-5xl">
           Let&apos;s talk about software roles
         </h1>
-        <p className="mt-4 text-muted">
+        <p className="mt-4 text-sm text-term-dim sm:text-base">
           Open to Full Stack, Software Engineer, and related employee positions in the UK. Not
           available for freelance, contractor, or self-employed consulting under current
           Permission to Work conditions.
         </p>
 
-        <div className="mt-14 space-y-8">
-          <div>
-            <p className="section-label">Email</p>
-            <a
-              href={`mailto:${profile.email}`}
-              className="font-display mt-2 block text-3xl text-ink transition hover:text-teal sm:text-4xl"
-            >
-              {profile.email}
-            </a>
+        <TerminalWindow path="~/contact.sh" className="mt-10">
+          <div className="space-y-8">
+            <div>
+              <p className="text-xs text-term-dim">
+                <span className="text-term-green">$</span> echo $EMAIL
+              </p>
+              <a
+                href={`mailto:${profile.email}`}
+                className="mt-2 block break-all font-display text-xl text-term-green hover:underline sm:text-3xl"
+              >
+                {profile.email}
+              </a>
+            </div>
+            <div>
+              <p className="text-xs text-term-dim">
+                <span className="text-term-green">$</span> echo $PHONE
+              </p>
+              <a
+                href={profile.phoneHref}
+                className="mt-2 block font-display text-xl text-term-green hover:underline sm:text-3xl"
+              >
+                {profile.phone}
+              </a>
+            </div>
+            <div>
+              <p className="text-xs text-term-dim">
+                <span className="text-term-green">$</span> echo $LOCATION
+              </p>
+              <p className="mt-2 text-base text-foreground sm:text-xl">{profile.location}</p>
+            </div>
+            <div className="flex flex-wrap gap-6 border-t border-[var(--term-border)] pt-6">
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="min-h-11 text-term-green hover:underline"
+              >
+                linkedin
+              </a>
+              <a
+                href={profile.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="min-h-11 text-term-green hover:underline"
+              >
+                github
+              </a>
+            </div>
           </div>
-          <div>
-            <p className="section-label">Phone</p>
-            <a
-              href={profile.phoneHref}
-              className="font-display mt-2 block text-3xl text-ink transition hover:text-teal sm:text-4xl"
-            >
-              {profile.phone}
-            </a>
-          </div>
-          <div>
-            <p className="section-label">Location</p>
-            <p className="mt-2 text-xl text-ink">{profile.location}</p>
-          </div>
-          <div className="flex flex-wrap gap-6 pt-4">
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-lg text-teal hover:underline"
-            >
-              LinkedIn
-            </a>
-            <a
-              href={profile.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-lg text-teal hover:underline"
-            >
-              GitHub
-            </a>
-          </div>
-        </div>
+        </TerminalWindow>
       </div>
     </div>
   );

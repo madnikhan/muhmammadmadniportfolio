@@ -1,18 +1,64 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, PerformanceMonitor } from "@react-three/drei";
+import { Float, Grid, PerformanceMonitor } from "@react-three/drei";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
-type SystemsConstellationProps = {
+type ConstellationProps = {
   nodeCount: number;
   pointer: React.MutableRefObject<{ x: number; y: number }>;
+  enableParallax: boolean;
 };
 
-function SystemsConstellation({ nodeCount, pointer }: SystemsConstellationProps) {
+function DataPackets({
+  connections,
+}: {
+  connections: number[];
+}) {
+  const ref = useRef<THREE.Points>(null);
+  const count = Math.min(24, Math.floor(connections.length / 6));
+
+  const positions = useMemo(() => {
+    const arr = new Float32Array(count * 3);
+    return arr;
+  }, [count]);
+
+  const segments = useMemo(() => {
+    const segs: { a: THREE.Vector3; b: THREE.Vector3 }[] = [];
+    for (let i = 0; i + 5 < connections.length && segs.length < count; i += 6) {
+      segs.push({
+        a: new THREE.Vector3(connections[i], connections[i + 1], connections[i + 2]),
+        b: new THREE.Vector3(connections[i + 3], connections[i + 4], connections[i + 5]),
+      });
+    }
+    return segs;
+  }, [connections, count]);
+
+  useFrame((state) => {
+    if (!ref.current || segments.length === 0) return;
+    const t = state.clock.getElapsedTime();
+    const pos = ref.current.geometry.attributes.position as THREE.BufferAttribute;
+    for (let i = 0; i < segments.length; i++) {
+      const u = (t * 0.35 + i * 0.17) % 1;
+      const p = segments[i].a.clone().lerp(segments[i].b, u);
+      pos.setXYZ(i, p.x, p.y, p.z);
+    }
+    pos.needsUpdate = true;
+  });
+
+  return (
+    <points ref={ref}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+      </bufferGeometry>
+      <pointsMaterial color="#33ff99" size={0.06} sizeAttenuation transparent opacity={0.9} />
+    </points>
+  );
+}
+
+function SystemsConstellation({ nodeCount, pointer, enableParallax }: ConstellationProps) {
   const group = useRef<THREE.Group>(null);
-  const lineRef = useRef<THREE.LineSegments>(null);
 
   const { positions, connections } = useMemo(() => {
     const positions: [number, number, number][] = [];
@@ -22,7 +68,7 @@ function SystemsConstellation({ nodeCount, pointer }: SystemsConstellationProps)
       const phi = Math.acos(2 * Math.random() - 1);
       positions.push([
         r * Math.sin(phi) * Math.cos(theta),
-        r * Math.sin(phi) * Math.sin(theta) * 0.7,
+        r * Math.sin(phi) * Math.sin(theta) * 0.65,
         r * Math.cos(phi),
       ]);
     }
@@ -63,39 +109,41 @@ function SystemsConstellation({ nodeCount, pointer }: SystemsConstellationProps)
   useFrame((state) => {
     if (!group.current) return;
     const t = state.clock.getElapsedTime();
-    group.current.rotation.y = t * 0.08 + pointer.current.x * 0.35;
-    group.current.rotation.x = pointer.current.y * 0.2;
+    const px = enableParallax ? pointer.current.x * 0.35 : 0;
+    const py = enableParallax ? pointer.current.y * 0.2 : 0;
+    group.current.rotation.y = t * 0.1 + px;
+    group.current.rotation.x = 0.15 + py;
   });
 
   return (
-    <group ref={group}>
-      <lineSegments ref={lineRef} geometry={lineGeo}>
-        <lineBasicMaterial color="#0d9488" transparent opacity={0.35} />
+    <group ref={group} position={[0, 0.4, 0]}>
+      <lineSegments geometry={lineGeo}>
+        <lineBasicMaterial color="#33ff99" transparent opacity={0.28} />
       </lineSegments>
+      <DataPackets connections={connections} />
       {positions.map((pos, i) => (
-        <Float key={i} speed={1.2} rotationIntensity={0.2} floatIntensity={0.4}>
+        <Float key={i} speed={1.1} rotationIntensity={0.15} floatIntensity={0.35}>
           <mesh position={pos}>
-            <icosahedronGeometry args={[i % 5 === 0 ? 0.08 : 0.045, 0]} />
+            <octahedronGeometry args={[i % 5 === 0 ? 0.07 : 0.04, 0]} />
             <meshStandardMaterial
-              color={i % 5 === 0 ? "#14b8a6" : "#94a3b8"}
-              emissive={i % 5 === 0 ? "#0d9488" : "#1e293b"}
-              emissiveIntensity={i % 5 === 0 ? 0.85 : 0.2}
-              roughness={0.35}
-              metalness={0.4}
+              color={i % 5 === 0 ? "#33ff99" : "#6b8f7a"}
+              emissive="#33ff99"
+              emissiveIntensity={i % 5 === 0 ? 1.1 : 0.25}
+              roughness={0.3}
+              metalness={0.5}
             />
           </mesh>
         </Float>
       ))}
-      {/* Abstract wireframe panels */}
       {[
-        [-1.8, 0.6, -0.5],
-        [1.6, -0.4, 0.8],
-        [0.2, 1.2, -1.4],
+        [-1.8, 0.5, -0.4],
+        [1.5, -0.3, 0.7],
+        [0.1, 1.1, -1.3],
       ].map((pos, i) => (
-        <Float key={`panel-${i}`} speed={0.8} floatIntensity={0.3}>
-          <mesh position={pos as [number, number, number]} rotation={[0.4, 0.6 * i, 0.2]}>
-            <planeGeometry args={[0.9, 0.55]} />
-            <meshBasicMaterial color="#14b8a6" wireframe transparent opacity={0.22} />
+        <Float key={`panel-${i}`} speed={0.7} floatIntensity={0.25}>
+          <mesh position={pos as [number, number, number]} rotation={[0.35, 0.5 * i, 0.15]}>
+            <planeGeometry args={[0.95, 0.58]} />
+            <meshBasicMaterial color="#33ff99" wireframe transparent opacity={0.2} />
           </mesh>
         </Float>
       ))}
@@ -104,16 +152,23 @@ function SystemsConstellation({ nodeCount, pointer }: SystemsConstellationProps)
 }
 
 export function HeroScene() {
-  const [nodeCount, setNodeCount] = useState(42);
+  const [nodeCount, setNodeCount] = useState(36);
   const [visible, setVisible] = useState(true);
+  const [enableParallax, setEnableParallax] = useState(false);
   const pointer = useRef({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth) * 2 - 1;
-      const y = (e.clientY / window.innerHeight) * 2 - 1;
-      pointer.current = { x, y };
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    setEnableParallax(!coarse);
+    if (window.innerWidth < 768) setNodeCount(22);
+
+    if (coarse) return;
+    const onMove = (e: PointerEvent) => {
+      pointer.current = {
+        x: (e.clientX / window.innerWidth) * 2 - 1,
+        y: (e.clientY / window.innerHeight) * 2 - 1,
+      };
     };
     window.addEventListener("pointermove", onMove, { passive: true });
     return () => window.removeEventListener("pointermove", onMove);
@@ -130,28 +185,40 @@ export function HeroScene() {
     return () => obs.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.innerWidth < 768) setNodeCount(28);
-  }, []);
-
   return (
     <div ref={containerRef} className="absolute inset-0">
       <Canvas
         dpr={[1, 1.5]}
-        camera={{ position: [0, 0, 5.2], fov: 45 }}
+        camera={{ position: [0, 1.2, 5.5], fov: 42 }}
         frameloop={visible ? "always" : "never"}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       >
-        <color attach="background" args={["#0b1220"]} />
-        <fog attach="fog" args={["#0b1220", 4.5, 11]} />
-        <ambientLight intensity={0.35} />
-        <pointLight position={[4, 3, 5]} intensity={1.2} color="#14b8a6" />
-        <pointLight position={[-4, -2, 2]} intensity={0.5} color="#64748b" />
-        <PerformanceMonitor
-          onDecline={() => setNodeCount((n) => Math.max(18, Math.floor(n * 0.7)))}
+        <color attach="background" args={["#070b09"]} />
+        <fog attach="fog" args={["#070b09", 5, 12]} />
+        <ambientLight intensity={0.25} />
+        <pointLight position={[4, 4, 5]} intensity={1.4} color="#33ff99" />
+        <pointLight position={[-3, -1, 2]} intensity={0.4} color="#6b8f7a" />
+        <Grid
+          position={[0, -1.6, 0]}
+          args={[12, 12]}
+          cellSize={0.45}
+          cellThickness={0.6}
+          cellColor="#1a9960"
+          sectionSize={2.25}
+          sectionThickness={1.1}
+          sectionColor="#33ff99"
+          fadeDistance={10}
+          fadeStrength={1.4}
+          infiniteGrid
         />
-        <SystemsConstellation nodeCount={nodeCount} pointer={pointer} />
+        <PerformanceMonitor
+          onDecline={() => setNodeCount((n) => Math.max(14, Math.floor(n * 0.7)))}
+        />
+        <SystemsConstellation
+          nodeCount={nodeCount}
+          pointer={pointer}
+          enableParallax={enableParallax}
+        />
       </Canvas>
     </div>
   );

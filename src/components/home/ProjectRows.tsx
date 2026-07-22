@@ -5,38 +5,36 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { projects } from "@/content/projects";
 import { Reveal } from "@/components/ui/Reveal";
+import { TerminalWindow } from "@/components/ui/TerminalWindow";
 
 export function ProjectRows() {
   return (
-    <section className="bg-paper px-5 py-20 sm:px-8">
+    <section className="bg-term-bg px-4 py-16 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p className="section-label">Selected work</p>
-          <h2 className="font-display mt-3 text-3xl tracking-tight text-ink sm:text-4xl">
+          <h2 className="font-display mt-3 text-2xl text-term-green sm:text-4xl">
             Deep dives from 250+ deliveries
           </h2>
-          <p className="mt-3 max-w-2xl text-muted">
-            Three case studies that show enterprise-style complexity — POS, multi-branch retail,
-            commerce and operations. More on GitHub.
+          <p className="mt-3 max-w-2xl text-sm text-term-dim sm:text-base">
+            Enterprise-style complexity — POS, multi-branch retail, commerce and operations.
+            Built with modern stacks and an AI-augmented workspace.
           </p>
         </Reveal>
 
-        <div className="mt-14 space-y-16">
-          {projects.map((project, index) => {
-            const reverse = index % 2 === 1;
-            return (
-              <Reveal key={project.slug} delay={0.05 * index}>
+        <div className="mt-10 space-y-10 sm:mt-14 sm:space-y-14">
+          {projects.map((project, index) => (
+            <Reveal key={project.slug} delay={0.04 * index}>
+              <TerminalWindow path={`~/projects/${project.slug}`}>
                 <Link
                   href={`/projects/${project.slug}`}
-                  className={`group grid items-center gap-8 md:grid-cols-2 ${
-                    reverse ? "md:[&>*:first-child]:order-2" : ""
-                  }`}
+                  className="group grid items-center gap-6 md:grid-cols-2"
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden rounded-sm bg-ink-soft">
+                  <div className="relative aspect-[16/10] overflow-hidden border border-[var(--term-border)] bg-term-panel-2">
                     <motion.div
                       className="h-full w-full"
-                      whileHover={{ scale: 1.04 }}
-                      transition={{ duration: 0.45 }}
+                      whileHover={{ scale: 1.03 }}
+                      transition={{ duration: 0.4 }}
                     >
                       <Image
                         src={project.images[0].src}
@@ -46,26 +44,22 @@ export function ProjectRows() {
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </motion.div>
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent opacity-60" />
                   </div>
                   <div>
-                    <p className="text-sm text-teal">{project.role}</p>
-                    <h3 className="font-display mt-2 text-2xl tracking-tight text-ink transition group-hover:translate-x-1 sm:text-3xl">
+                    <p className="text-xs text-term-amber sm:text-sm">{project.role}</p>
+                    <h3 className="mt-2 text-xl text-term-green transition group-hover:translate-x-1 sm:text-2xl">
                       {project.shortTitle}
                     </h3>
-                    <p className="mt-3 text-muted">{project.summary}</p>
-                    <p className="mt-4 text-sm font-medium text-ink">
-                      View case study
-                      <span className="ml-2 inline-block text-teal transition group-hover:translate-x-1">
-                        →
-                      </span>
+                    <p className="mt-3 text-sm text-term-dim">{project.summary}</p>
+                    <p className="mt-4 text-sm text-term-green">
+                      <span className="text-term-dim">$ </span>open case_study
+                      <span className="ml-1 opacity-70 group-hover:opacity-100">→</span>
                     </p>
-                    <div className="mt-1 h-px w-0 bg-teal transition-all duration-500 group-hover:w-24" />
                   </div>
                 </Link>
-              </Reveal>
-            );
-          })}
+              </TerminalWindow>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

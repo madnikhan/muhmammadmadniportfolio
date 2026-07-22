@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/ui/Reveal";
+import { TerminalWindow } from "@/components/ui/TerminalWindow";
 import { getProject, projects } from "@/content/projects";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -27,22 +28,25 @@ export default async function ProjectDetailPage({ params }: Props) {
   if (!project) notFound();
 
   return (
-    <div className="bg-paper px-5 pb-24 pt-28 sm:px-8">
+    <div className="bg-term-bg px-4 pb-20 pt-24 sm:px-6 sm:pb-24 sm:pt-28">
       <div className="mx-auto max-w-6xl">
-        <Link href="/projects" className="text-sm text-muted hover:text-teal">
-          ← All projects
+        <Link href="/projects" className="text-sm text-term-dim hover:text-term-green">
+          $ cd ../projects
         </Link>
         <Reveal>
           <p className="section-label mt-8">{project.role}</p>
-          <h1 className="font-display mt-3 max-w-4xl text-4xl tracking-tight text-ink sm:text-5xl">
+          <h1 className="font-display mt-3 max-w-4xl text-3xl text-term-green sm:text-5xl">
             {project.title}
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-muted">{project.summary}</p>
+          <p className="mt-4 max-w-2xl text-sm text-term-dim sm:text-lg">{project.summary}</p>
         </Reveal>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
           {project.images.map((img) => (
-            <div key={img.src} className="relative aspect-[16/10] overflow-hidden bg-ink-soft">
+            <div
+              key={img.src}
+              className="relative aspect-[16/10] overflow-hidden border border-[var(--term-border)] bg-term-panel"
+            >
               <Image
                 src={img.src}
                 alt={img.alt}
@@ -55,51 +59,52 @@ export default async function ProjectDetailPage({ params }: Props) {
           ))}
         </div>
 
-        <div className="mt-16 grid gap-12 md:grid-cols-[1fr_1.2fr]">
+        <div className="mt-12 grid gap-8 md:grid-cols-[1fr_1.2fr] md:gap-12">
           <Reveal>
-            <div className="sticky top-24 space-y-8">
-              <div>
-                <p className="section-label">Technologies</p>
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {project.technologies.map((tech) => (
-                    <li
-                      key={tech}
-                      className="rounded-md border border-ink/10 bg-white px-3 py-1 text-sm text-ink"
-                    >
-                      {tech}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <TerminalWindow path="~/tech" className="md:sticky md:top-24">
+              <p className="section-label !normal-case tracking-normal">technologies</p>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {project.technologies.map((tech) => (
+                  <li key={tech} className="tag-code">
+                    [{tech}]
+                  </li>
+                ))}
+              </ul>
               {project.github ? (
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex text-sm font-medium text-teal hover:underline"
+                  className="mt-6 inline-flex text-sm text-term-green hover:underline"
                 >
-                  View on GitHub →
+                  $ open github →
                 </a>
               ) : null}
-            </div>
+            </TerminalWindow>
           </Reveal>
 
-          <div className="space-y-10">
+          <div className="space-y-8">
             <Reveal>
-              <h2 className="font-display text-2xl text-ink">Problem</h2>
-              <p className="mt-3 text-muted">{project.problem}</p>
+              <TerminalWindow path="~/problem.md">
+                <h2 className="text-lg text-term-green">Problem</h2>
+                <p className="mt-3 text-sm text-term-dim">{project.problem}</p>
+              </TerminalWindow>
             </Reveal>
             <Reveal>
-              <h2 className="font-display text-2xl text-ink">Features</h2>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-muted">
-                {project.features.map((f) => (
-                  <li key={f}>{f}</li>
-                ))}
-              </ul>
+              <TerminalWindow path="~/features.list">
+                <h2 className="text-lg text-term-green">Features</h2>
+                <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-term-dim">
+                  {project.features.map((f) => (
+                    <li key={f}>{f}</li>
+                  ))}
+                </ul>
+              </TerminalWindow>
             </Reveal>
             <Reveal>
-              <h2 className="font-display text-2xl text-ink">Outcome</h2>
-              <p className="mt-3 text-muted">{project.outcome}</p>
+              <TerminalWindow path="~/outcome.md">
+                <h2 className="text-lg text-term-green">Outcome</h2>
+                <p className="mt-3 text-sm text-term-dim">{project.outcome}</p>
+              </TerminalWindow>
             </Reveal>
           </div>
         </div>

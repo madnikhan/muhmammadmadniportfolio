@@ -3,92 +3,88 @@
 import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import { useMemo, useState } from "react";
 import { profile } from "@/content/profile";
+import { TypeLines } from "@/components/ui/TypeLines";
 
 const HeroScene = dynamic(
   () => import("./HeroScene").then((m) => m.HeroScene),
-  { ssr: false, loading: () => <div className="absolute inset-0 bg-ink" /> },
+  { ssr: false, loading: () => <div className="absolute inset-0 bg-term-bg" /> },
 );
 
 export function Hero() {
   const reduce = useReducedMotion();
+  const [bootDone, setBootDone] = useState(!!reduce);
+
+  const bootLines = useMemo(
+    () => [
+      { prompt: "$", text: "whoami", delay: 200 },
+      { text: "muhammad.madni — full_stack_engineer", delay: 700 },
+      { prompt: "$", text: "uptime", delay: 1200 },
+      {
+        text: `${profile.yearsExperience}+ years · ${profile.projectsDelivered}+ systems`,
+        delay: 1700,
+      },
+      { prompt: "$", text: "tools --ai", delay: 2200 },
+      { text: "chatgpt · anthropic_claude · cursor_ai · local_ai", delay: 2700 },
+      { prompt: "$", text: "./portfolio --open", delay: 3300 },
+    ],
+    [],
+  );
 
   return (
-    <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-ink text-white">
+    <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-term-bg pb-10 pt-20 text-foreground sm:items-center sm:pb-16 sm:pt-24">
       {!reduce ? (
         <HeroScene />
       ) : (
         <div
-          className="absolute inset-0 bg-ink"
+          className="absolute inset-0 bg-term-bg"
           style={{
             backgroundImage:
-              "radial-gradient(ellipse 80% 60% at 70% 40%, rgba(13,148,136,0.25), transparent), radial-gradient(ellipse 50% 40% at 20% 80%, rgba(100,116,139,0.2), transparent)",
+              "radial-gradient(ellipse 70% 50% at 70% 35%, rgba(51,255,153,0.12), transparent), linear-gradient(180deg, #070b09, #0d1410)",
           }}
         />
       )}
-      <div className="noise-overlay z-[1]" />
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-ink via-ink/70 to-ink/20" />
+      <div className="scanlines" />
+      <div className="vignette" />
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-term-bg via-term-bg/75 to-term-bg/30 sm:bg-gradient-to-r sm:from-term-bg sm:via-term-bg/80 sm:to-transparent" />
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-20 pt-28 sm:px-8">
-        <motion.p
-          className="section-label text-teal-bright/90"
-          initial={reduce ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          {profile.role}
-        </motion.p>
-        <motion.h1
-          className="font-display mt-4 max-w-4xl text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl"
-          initial={reduce ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.08 }}
-        >
-          {profile.name}
-        </motion.h1>
-        <motion.p
-          className="mt-6 max-w-2xl text-lg text-white/75 sm:text-xl"
-          initial={reduce ? false : { opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.16 }}
-        >
-          {profile.headline}
-        </motion.p>
-        <motion.p
-          className="mt-3 max-w-xl text-sm text-white/50 sm:text-base"
-          initial={reduce ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.24 }}
-        >
-          {profile.yearsExperience}+ years · {profile.projectsDelivered}+ projects · Full Stack ·{" "}
-          {profile.locationShort}
-        </motion.p>
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6">
+        <div className="mb-6 max-w-xl border border-[var(--term-border)] bg-term-panel/90 p-3 backdrop-blur-sm sm:p-4">
+          <TypeLines lines={bootLines} onDone={() => setBootDone(true)} />
+        </div>
+
         <motion.div
-          className="pointer-events-auto mt-10 flex flex-wrap gap-3"
-          initial={reduce ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.32 }}
+          initial={reduce ? false : { opacity: 0, y: 12 }}
+          animate={bootDone || reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={{ duration: 0.45 }}
         >
-          <Link
-            href="/projects"
-            className="inline-flex items-center rounded-md bg-teal px-5 py-3 text-sm font-medium text-white transition hover:bg-teal-bright"
-          >
-            View Projects
-          </Link>
-          <Link
-            href="/cv"
-            className="inline-flex items-center rounded-md border border-white/25 bg-white/5 px-5 py-3 text-sm font-medium text-white backdrop-blur transition hover:border-white/50"
-          >
-            Download CV
-          </Link>
-          <a
-            href={profile.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center rounded-md px-5 py-3 text-sm font-medium text-white/80 transition hover:text-white"
-          >
-            LinkedIn
-          </a>
+          <p className="section-label text-term-dim">{profile.role}</p>
+          <h1 className="font-display mt-3 max-w-4xl text-3xl leading-[1.1] text-term-green sm:text-5xl md:text-6xl">
+            {profile.name}
+          </h1>
+          <p className="mt-4 max-w-2xl text-sm text-foreground/80 sm:text-lg">
+            {profile.headline}
+          </p>
+          <p className="mt-2 max-w-xl text-xs text-term-dim sm:text-sm">
+            latest stacks · AI-augmented workspace · {profile.locationShort}
+          </p>
+          <div className="pointer-events-auto mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
+            <Link href="/projects" className="btn-term-solid w-full sm:w-auto">
+              View Projects
+            </Link>
+            <Link href="/cv" className="btn-term w-full sm:w-auto">
+              Download CV
+            </Link>
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-term w-full sm:w-auto"
+            >
+              LinkedIn
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>

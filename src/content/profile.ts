@@ -2,9 +2,9 @@ export const profile = {
   name: "Muhammad Madni",
   role: "Full Stack Software Engineer",
   headline:
-    "Building modern software solutions with 20+ years of technology experience",
+    "Building state-of-the-art systems with modern stacks and an AI-augmented workspace",
   subheading:
-    "Full Stack Software Engineer specialising in business applications, automation systems, and modern web technologies.",
+    "Full Stack Software Engineer specialising in business applications, automation systems, and modern web technologies — using ChatGPT, Anthropic Claude, Cursor AI, and locally built AI systems for efficient delivery.",
   location: "Newton-le-Willows, St Helens, Merseyside, UK",
   locationShort: "Merseyside, UK",
   email: "madnikhan1@gmail.com",
@@ -16,7 +16,13 @@ export const profile = {
   yearsExperience: 20,
   projectsDelivered: 250,
   summary:
-    "Full Stack Software Engineer with over 20 years in IT and 250+ delivered projects — from websites and e-commerce to complex enterprise-style management systems spanning retail, hospitality, legal and solicitor operations, immigration application workflows, government-office automation, and AI camera traffic monitoring. Experienced in React, Next.js, TypeScript, Node.js, and SQL databases. A software engineer who understands business problems, not just code.",
+    "Full Stack Software Engineer with over 20 years in IT and 250+ delivered projects — from websites and e-commerce to complex enterprise-style management systems spanning retail, hospitality, legal and solicitor operations, immigration application workflows, government-office automation, and AI camera traffic monitoring. Builds with current stacks (React, Next.js, TypeScript, Node.js) and an AI-augmented workspace — ChatGPT, Anthropic Claude, Cursor AI, and locally built AI systems — to ship state-of-the-art software faster and with higher quality. A software engineer who understands business problems, not just code.",
+  aiWorkspace: [
+    "ChatGPT",
+    "Anthropic Claude",
+    "Cursor AI",
+    "Locally built AI systems",
+  ],
   domains: [
     "Web design",
     "E-commerce",
@@ -37,6 +43,10 @@ export const profile = {
     "TypeScript",
     "Node.js",
     "PostgreSQL",
+    "Cursor AI",
+    "Anthropic Claude",
+    "ChatGPT",
+    "Local AI systems",
     "Firebase",
     "POS systems",
     "E-commerce",
@@ -45,7 +55,6 @@ export const profile = {
     "Gov office automation",
     "AI traffic cameras",
     "Business dashboards",
-    "REST APIs",
     "Prisma",
     "Tailwind CSS",
   ],

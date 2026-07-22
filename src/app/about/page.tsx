@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
+import { TerminalWindow } from "@/components/ui/TerminalWindow";
 import { profile } from "@/content/profile";
 import { additionalExperience } from "@/content/experience";
 
@@ -11,52 +12,65 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="bg-paper px-5 pb-24 pt-28 sm:px-8">
-      <div className="mx-auto max-w-3xl">
+    <div className="bg-term-bg px-4 pb-20 pt-24 sm:px-6 sm:pb-24 sm:pt-28">
+      <div className="mx-auto max-w-3xl space-y-10">
         <Reveal>
           <p className="section-label">About</p>
-          <h1 className="font-display mt-3 text-4xl tracking-tight text-ink sm:text-5xl">
-            Engineer first. Business fluency built in.
+          <h1 className="font-display mt-3 text-3xl text-term-green sm:text-5xl">
+            Engineer first. AI-augmented. Business fluent.
           </h1>
-          <p className="mt-6 text-lg leading-relaxed text-muted">{profile.summary}</p>
+          <p className="mt-6 text-sm leading-relaxed text-term-dim sm:text-lg">{profile.summary}</p>
         </Reveal>
 
-        <Reveal className="mt-14">
-          <h2 className="font-display text-2xl text-ink">20+ years in IT</h2>
-          <p className="mt-4 leading-relaxed text-muted">
-            Over two decades working with technology and business systems — delivering websites,
-            e-commerce, static sites, web applications, and complex management platforms. The
-            portfolio highlights three deep case studies; they represent a fraction of{" "}
-            {profile.projectsDelivered}+ career deliveries.
+        <Reveal>
+          <TerminalWindow path="~/stack/ai-workspace">
+            <p className="text-xs text-term-dim">
+              <span className="text-term-green">$</span> tools --ai --list
+            </p>
+            <p className="mt-3 text-sm text-foreground/90">
+              Adopted AI across the workspace for efficiency and effective delivery of modern
+              systems — ChatGPT, Anthropic Claude, Cursor AI, and locally built AI systems —
+              alongside latest application stacks.
+            </p>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {profile.aiWorkspace.map((t) => (
+                <li key={t} className="tag-code">
+                  [{t}]
+                </li>
+              ))}
+            </ul>
+          </TerminalWindow>
+        </Reveal>
+
+        <Reveal>
+          <h2 className="font-display text-xl text-term-green sm:text-2xl">20+ years in IT</h2>
+          <p className="mt-4 text-sm leading-relaxed text-term-dim sm:text-base">
+            Over two decades delivering websites, e-commerce, static sites, web applications, and
+            complex management platforms. Three deep case studies on this site represent a
+            fraction of {profile.projectsDelivered}+ career deliveries.
           </p>
         </Reveal>
 
-        <Reveal className="mt-12">
-          <h2 className="font-display text-2xl text-ink">Delivery domains</h2>
+        <Reveal>
+          <h2 className="font-display text-xl text-term-green sm:text-2xl">Delivery domains</h2>
           <ul className="mt-4 flex flex-wrap gap-2">
             {profile.domains.map((d) => (
-              <li
-                key={d}
-                className="rounded-md border border-ink/10 bg-white px-3 py-1.5 text-sm text-ink"
-              >
-                {d}
+              <li key={d} className="tag-code">
+                [{d}]
               </li>
             ))}
           </ul>
-          <p className="mt-4 text-sm text-muted">
-            Systems built for immigration-style application and casework workflows, solicitor
-            office management, government-office automation, and AI camera traffic monitoring —
-            framed by capability and complexity, not unverifiable employer badges.
-          </p>
         </Reveal>
 
-        <Reveal className="mt-12">
-          <h2 className="font-display text-2xl text-ink">Operations that inform the software</h2>
+        <Reveal>
+          <h2 className="font-display text-xl text-term-green sm:text-2xl">
+            Operations that inform the software
+          </h2>
           <div className="mt-4 space-y-6">
             {additionalExperience.map((exp) => (
               <div key={exp.title}>
-                <h3 className="font-medium text-ink">{exp.title}</h3>
-                <ul className="mt-2 list-disc space-y-1 pl-5 text-muted">
+                <h3 className="text-sm font-medium text-foreground sm:text-base">{exp.title}</h3>
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-term-dim">
                   {exp.bullets.map((b) => (
                     <li key={b}>{b}</li>
                   ))}
@@ -66,29 +80,23 @@ export default function AboutPage() {
           </div>
         </Reveal>
 
-        <Reveal className="mt-12">
-          <h2 className="font-display text-2xl text-ink">Education</h2>
+        <Reveal>
+          <h2 className="font-display text-xl text-term-green sm:text-2xl">Education</h2>
           <ul className="mt-4 space-y-3">
             {profile.education.map((ed) => (
               <li key={ed.title}>
-                <p className="font-medium text-ink">{ed.title}</p>
-                <p className="text-sm text-muted">{ed.detail}</p>
+                <p className="text-sm font-medium text-foreground sm:text-base">{ed.title}</p>
+                <p className="text-xs text-term-dim sm:text-sm">{ed.detail}</p>
               </li>
             ))}
           </ul>
         </Reveal>
 
-        <Reveal className="mt-14 flex flex-wrap gap-4">
-          <Link
-            href="/cv"
-            className="rounded-md bg-ink px-5 py-3 text-sm font-medium text-white hover:bg-ink-soft"
-          >
+        <Reveal className="flex w-full flex-col gap-3 sm:flex-row">
+          <Link href="/cv" className="btn-term-solid w-full sm:w-auto">
             Download CV
           </Link>
-          <Link
-            href="/contact"
-            className="rounded-md border border-ink/15 px-5 py-3 text-sm font-medium text-ink hover:border-teal hover:text-teal"
-          >
+          <Link href="/contact" className="btn-term w-full sm:w-auto">
             Contact
           </Link>
         </Reveal>

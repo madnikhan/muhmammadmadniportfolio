@@ -52,7 +52,16 @@ export const skills = {
   frontend: ["React", "Next.js", "TypeScript", "JavaScript", "HTML5", "CSS3", "Tailwind CSS"],
   backend: ["Node.js", "REST APIs", "Authentication", "Server-side development"],
   database: ["PostgreSQL", "Firebase Firestore", "MySQL", "Prisma", "Drizzle"],
-  tools: ["Git", "GitHub", "Vercel", "Docker", "Cursor AI"],
+  tools: [
+    "Git",
+    "GitHub",
+    "Vercel",
+    "Docker",
+    "Cursor AI",
+    "ChatGPT",
+    "Anthropic Claude",
+    "Local AI systems",
+  ],
 } as const;
 
 export const technicalStrengths = [
@@ -60,4 +69,5 @@ export const technicalStrengths = [
   "SME and operations fluency",
   "End-to-end delivery of complex management systems",
   "Domain depth across retail, hospitality, legal ops, and automation",
+  "AI-augmented workspace for efficient, modern delivery",
 ] as const;

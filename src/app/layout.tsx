@@ -1,24 +1,13 @@
 import type { Metadata } from "next";
-import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { profile } from "@/content/profile";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
-
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  axes: ["SOFT", "WONK", "opsz"],
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://madnikhan.dev";
@@ -53,9 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-GB">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} antialiased`}
-      >
+      <body className={`${geistMono.variable} bg-term-bg font-mono text-foreground antialiased`}>
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />
