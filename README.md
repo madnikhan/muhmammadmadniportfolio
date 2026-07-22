@@ -27,6 +27,19 @@ npm run build
 npm start
 ```
 
+## Capture live project demos
+
+Refresh screenshots / short WebM clips from live deployments:
+
+```bash
+# Fumari dashboard capture needs credentials (never commit real secrets)
+export FUMARI_USER=admin
+export FUMARI_PASS='your-password'
+npm run capture:demos
+```
+
+Assets land in `public/projects/<slug>/` (`hero.png`, `screen-2.png`, `demo.webm`).
+
 ## Deploy (Vercel)
 
 1. Push this repo to GitHub

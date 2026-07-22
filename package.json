@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "capture:demos": "node scripts/capture-demos.mjs"
   },
   "engines": {
     "node": ">=20"
@@ -29,6 +30,7 @@
     "@types/three": "^0.185.1",
     "eslint": "^9",
     "eslint-config-next": "15.5.21",
+    "playwright": "^1.61.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

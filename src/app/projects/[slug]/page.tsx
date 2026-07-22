@@ -39,7 +39,40 @@ export default async function ProjectDetailPage({ params }: Props) {
             {project.title}
           </h1>
           <p className="mt-4 max-w-2xl text-sm text-term-dim sm:text-lg">{project.summary}</p>
+          {project.liveUrl ? (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-term-solid mt-6 inline-flex w-full sm:w-auto"
+            >
+              Live demo
+            </a>
+          ) : null}
         </Reveal>
+
+        {project.video ? (
+          <Reveal className="mt-8">
+            <TerminalWindow path={`~/projects/${project.slug}/demo.webm`}>
+              <div className="aspect-video w-full overflow-hidden border border-[var(--term-border)] bg-black">
+                <video
+                  className="h-full w-full object-cover object-top"
+                  src={project.video.src}
+                  poster={project.video.poster}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  controls
+                  preload="metadata"
+                >
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <p className="mt-2 text-xs text-term-dim">motion demo · muted loop</p>
+            </TerminalWindow>
+          </Reveal>
+        ) : null}
 
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           {project.images.map((img) => (
@@ -70,16 +103,28 @@ export default async function ProjectDetailPage({ params }: Props) {
                   </li>
                 ))}
               </ul>
-              {project.github ? (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-6 inline-flex text-sm text-term-green hover:underline"
-                >
-                  $ open github →
-                </a>
-              ) : null}
+              <div className="mt-6 flex flex-col gap-3">
+                {project.liveUrl ? (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex text-sm text-term-green hover:underline"
+                  >
+                    $ open live_demo →
+                  </a>
+                ) : null}
+                {project.github ? (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex text-sm text-term-green hover:underline"
+                  >
+                    $ open github →
+                  </a>
+                ) : null}
+              </div>
             </TerminalWindow>
           </Reveal>
 

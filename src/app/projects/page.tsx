@@ -40,6 +40,11 @@ export default function ProjectsPage() {
                       className="object-cover object-top transition duration-500 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
+                    {project.liveUrl ? (
+                      <span className="absolute right-2 top-2 border border-term-green/50 bg-term-bg/85 px-2 py-0.5 text-[10px] uppercase tracking-wider text-term-green">
+                        live
+                      </span>
+                    ) : null}
                   </div>
                   <p className="mt-4 text-xs text-term-amber">{project.role}</p>
                   <h2 className="mt-1 text-lg text-term-green group-hover:underline">

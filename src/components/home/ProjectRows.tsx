@@ -7,7 +7,11 @@ import { projects } from "@/content/projects";
 import { Reveal } from "@/components/ui/Reveal";
 import { TerminalWindow } from "@/components/ui/TerminalWindow";
 
+const HOME_PROJECT_COUNT = 2;
+
 export function ProjectRows() {
+  const featured = projects.slice(0, HOME_PROJECT_COUNT);
+
   return (
     <section className="bg-term-bg px-4 py-16 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-6xl">
@@ -23,7 +27,7 @@ export function ProjectRows() {
         </Reveal>
 
         <div className="mt-10 space-y-10 sm:mt-14 sm:space-y-14">
-          {projects.map((project, index) => (
+          {featured.map((project, index) => (
             <Reveal key={project.slug} delay={0.04 * index}>
               <TerminalWindow path={`~/projects/${project.slug}`}>
                 <Link
@@ -44,6 +48,11 @@ export function ProjectRows() {
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </motion.div>
+                    {project.liveUrl ? (
+                      <span className="absolute right-2 top-2 border border-term-green/50 bg-term-bg/85 px-2 py-0.5 text-[10px] uppercase tracking-wider text-term-green">
+                        live
+                      </span>
+                    ) : null}
                   </div>
                   <div>
                     <p className="text-xs text-term-amber sm:text-sm">{project.role}</p>
@@ -52,7 +61,8 @@ export function ProjectRows() {
                     </h3>
                     <p className="mt-3 text-sm text-term-dim">{project.summary}</p>
                     <p className="mt-4 text-sm text-term-green">
-                      <span className="text-term-dim">$ </span>open case_study
+                      <span className="text-term-dim">$ </span>
+                      {project.liveUrl ? "open live_demo" : "open case_study"}
                       <span className="ml-1 opacity-70 group-hover:opacity-100">→</span>
                     </p>
                   </div>
@@ -61,6 +71,12 @@ export function ProjectRows() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal className="mt-10">
+          <Link href="/projects" className="btn-term inline-flex w-full sm:w-auto">
+            View all projects
+          </Link>
+        </Reveal>
       </div>
     </section>
   );

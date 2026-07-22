@@ -19,6 +19,18 @@ export const metadata: Metadata = {
     template: `%s · ${profile.name}`,
   },
   description: profile.summary,
+  applicationName: profile.name,
+  authors: [{ name: profile.name, url: siteUrl }],
+  creator: profile.name,
+  keywords: [
+    "Full Stack Software Engineer",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "Merseyside",
+    "UK",
+    "Muhammad Madni",
+  ],
   openGraph: {
     title: `${profile.name} — ${profile.role}`,
     description: profile.headline,
